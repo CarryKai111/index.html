@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Barbs - Your AI Jokester</title>
+    <style>
+        body {
+            background-color: #000;
+            color: #ADD8E6;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
+        }
+        #title {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        #joke-container {
+            font-size: 1.5em;
+            margin: 20px auto;
+            width: 60%;
+            padding: 20px;
+            border-radius: 10px;
+            background: rgba(173, 216, 230, 0.2);
+            box-shadow: 0px 0px 10px rgba(173, 216, 230, 0.5);
+        }
+        .joke-btn {
+            background-color: #ADD8E6;
+            color: black;
+            font-size: 1.2em;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+        .joke-btn:hover {
+            background-color: #87CEEB;
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Hey, I'm Barbs! Ready for some fun? 😜</h1>
+    <div id="joke-container">Press the button to hear a joke!</div>
+    <button class="joke-btn" onclick="tellJoke()">Tell me a joke! 😂</button>
+    
+    <script>
+        const jokes = [
+            "Why did Barbs take a ladder to the bar? Because she heard the drinks were on the house!",
+            "Denny said she wanted to diet... but then she heard 'chai samosa' and forgot everything!",
+            "Why don’t scientists trust atoms? Because they make up everything!",
+            "Barbs told me a joke about chemistry, but there was no reaction!",
+            "Why did the biology book feel sad? It had too many 'organ'-izational problems!",
+            "What’s Barbie’s favorite subject? Plastic surgery! 😜",
+            "Why did the mitochondria break up with the nucleus? It needed space!",
+            "Why does Barbs carry a pen? In case she needs to draw attention!",
+            "What did the photon say when checking into a hotel? 'No luggage, I’m traveling light!'",
+            "Why do cows have bells? Because their horns don’t work!",
+            "Barbs asked a chicken why it crossed the road. It replied, 'None of your poultry business!'",
+            "Why did the tomato turn red? Because it saw Barbs and got crushed!",
+            "Why did Barbie break up with Ken? Because he was acting too 'plastic'!",
+            "What did Barbs say when she met a time traveler? 'I've been expecting you!'",
+            "Why do skeletons hate Barbs? Because she always gives them a 'bone' to pick!",
+            "Why did Denny sit on her phone? Because she wanted to call her crush ‘by accident’!",
+            "Why do Indian moms love their kids? Because they are 'chappal-ready' anytime!",
+            "Barbs tried to cook, but the only thing she boiled was my patience!",
+            "Why did Barbs take a ruler to bed? To see how long she slept!",
+            "Why did Barbie open a bakery? Because she kneaded the dough!",
+            "What do you call an elephant who doesn’t matter? Irrelephant!",
+            "Why did Barbs go to space? Because she wanted some 'universal' love!",
+            "Why did the tea refuse to fight? Because it was ‘chai-laxed’!",
+            "Barbs tried to count calories but lost count at biryani!",
+            "Why do Indian parents love WiFi? Because they always find a way to 'connect'!",
+            "Why don’t eggs tell jokes? Because they might crack up!",
+            "Why did Barbs stare at the orange juice? Because it said ‘concentrate’!",
+            "Why did the barber win the race? Because he took short cuts!",
+            "What’s Barbs’ favorite snack? Popcorn… because she’s always the ‘star’ of the show!",
+            "Why was the math book sad? Because it had too many problems!",
+            "Why did Barbie start a band? Because she wanted to ‘rock’ the world!",
+            "Why do birds love Barbs? Because she always ‘tweets’ good things!",
+            "Barbs told me a pizza joke… but it was too ‘cheesy’!",
+            "Why did the bike fall over? Because it was ‘two-tired’!",
+            "Barbs told me she’s on a seafood diet… She sees food, and she eats it!",
+            "Why did the banana go to the doctor? Because it wasn’t peeling well!",
+            "Barbs thinks she’s a magician… but all she does is ‘disappear’ when the bill arrives!",
+            "What’s Barbs’ favorite fruit? 'Berry' good ones!",
+            "Why did the fish blush? Because it saw the ocean’s bottom!",
+            "What did one hat say to the other? 'Stay here, I'm going on ahead!'"
+        ];
+        
+        let jokeIndex = 0;
+
+        function tellJoke() {
+            document.getElementById("joke-container").innerHTML = jokes[jokeIndex];
+            jokeIndex = (jokeIndex + 1) % jokes.length; // Cycles through all jokes without repetition until looped
+        }
+    </script>
+</body>
+</html>

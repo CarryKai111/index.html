@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Denny-cious Playzone</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
+            font-family: 'Comic Sans MS', cursive;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            touch-action: manipulation;
+        }
+
+        #title {
+            color: #FFF;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+            font-size: clamp(1.5rem, 6vw, 2.5rem);
+            margin: 20px 0;
+            animation: dance 2s ease infinite;
+        }
+
+        #progress {
+            width: 80%;
+            max-width: 300px;
+            height: 10px;
+            background: rgba(255,255,255,0.3);
+            border-radius: 10px;
+            margin: 10px 0;
+        }
+
+        #progress-bar {
+            height: 100%;
+            width: 0%;
+            background: #FFD93D;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+        }
+
+        .game-btn {
+            background: #4ECDC4;
+            color: white;
+            padding: clamp(12px, 3vw, 18px) clamp(24px, 6vw, 36px);
+            border: none;
+            border-radius: 30px;
+            font-size: clamp(1rem, 4vw, 1.2rem);
+            cursor: pointer;
+            transition: all 0.3s;
+            position: absolute;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            touch-action: none;
+            user-select: none;
+        }
+
+        .game-btn:active {
+            transform: scale(0.95);
+        }
+
+        #message {
+            color: white;
+            font-size: clamp(1.2rem, 5vw, 1.6rem);
+            margin: 20px;
+            text-align: center;
+            display: none;
+        }
+
+        .heart {
+            position: absolute;
+            animation: floatUp 3s linear forwards;
+            font-size: 24px;
+        }
+
+        @keyframes dance {
+            0%, 100% { transform: rotate(-3deg) scale(1); }
+            50% { transform: rotate(3deg) scale(1.05); }
+        }
+
+        @keyframes floatUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .game-btn {
+                position: relative;
+                margin-top: 30px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1 id="title">Hey Denny! 💖</h1>
+    <div id="progress">
+        <div id="progress-bar"></div>
+    </div>
+    
+    <button class="game-btn" id="mainBtn">Tap Me Tender 😏</button>
+    <div id="message"></div>
+
+    <script>
+        const flirtLines = [
+            "Do you have a name or can I call you mine? 😉",
+            "Are you WiFi? Because I'm really feeling a connection! 📶",
+            "Is your dad a baker? Because you're a cutie pie! 🥧",
+            "Are you French? Because Eiffel for you! 🗼",
+            "Do you believe in love? Or should I walk by again? 👀",
+            "Are you a time traveler? Because I see you in my future! ⏳",
+            "Is your name Google? Because you have everything I'm searching for! 🔍",
+            "Are you made of grapes? Because you're fine as wine! 🍷",
+            "Are you a bank loan? Because you got my interest! 💰",
+            "Are you Australian? Because you meet all my koalafications! 🐨"
+        ];
+
+        const btn = document.getElementById('mainBtn');
+        const message = document.getElementById('message');
+        const progressBar = document.getElementById('progress-bar');
+        let clicks = 0;
+
+        // Mobile-friendly movement
+        let isMobile = 'ontouchstart' in window;
+        let moveEvent = isMobile ? 'touchmove' : 'mousemove';
+
+        document.addEventListener(moveEvent, (e) => {
+            if(clicks < 10) {
+                const x = isMobile ? e.touches[0].clientX : e.clientX;
+                const y = isMobile ? e.touches[0].clientY : e.clientY;
+                
+                btn.style.left = x + 'px';
+                btn.style.top = y + 'px';
+            }
+        });
+
+        btn.addEventListener('click', () => {
+            if(clicks >= 10) return;
+            
+            clicks++;
+            progressBar.style.width = (clicks * 10) + '%';
+            
+            // Create floating heart
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '💖';
+            heart.style.left = btn.offsetLeft + 'px';
+            heart.style.top = btn.offsetTop + 'px';
+            document.body.appendChild(heart);
+            setTimeout(() => heart.remove(), 3000);
+
+            // Show messages
+            message.style.display = 'block';
+            message.textContent = flirtLines[Math.floor(Math.random() * flirtLines.length)];
+            
+            if(clicks === 10) {
+                message.innerHTML = "🏆 Level Complete! 🏆<br>Your Prize: 1 Virtual Date*<br><small>*Terms: Must include pizza & bad movies</small>";
+                btn.textContent = "Claim Prize? 😎";
+                btn.style.position = 'static';
+                btn.disabled = true;
+            }
+        });
+
+        // Initial position
+        btn.style.left = '50%';
+        btn.style.top = '50%';
+    </script>
+</body>
+</html>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denny-cious Playzone</title>
@@ -20,6 +20,7 @@
             justify-content: center;
             overflow: hidden;
             touch-action: manipulation;
+            text-align: center;
         }
 
         #title {
@@ -27,7 +28,6 @@
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             font-size: clamp(1.5rem, 6vw, 2.5rem);
             margin-bottom: 20px;
-            animation: dance 2s ease infinite;
         }
 
         #progress {
@@ -36,7 +36,7 @@
             height: 10px;
             background: rgba(255,255,255,0.3);
             border-radius: 10px;
-            margin-bottom: 20px;
+            margin-bottom: 10px;
         }
 
         #progress-bar {
@@ -50,15 +50,16 @@
         .game-btn {
             background: #4ECDC4;
             color: white;
-            padding: 15px 30px;
+            padding: 12px 24px;
             border: none;
             border-radius: 30px;
             font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+            touch-action: none;
             user-select: none;
-            position: absolute;
+            margin-top: 20px;
         }
 
         .game-btn:active {
@@ -67,32 +68,23 @@
 
         #message {
             color: white;
-            font-size: 1.4rem;
+            font-size: 1.6rem;
             margin-top: 20px;
             text-align: center;
             display: none;
         }
 
-        .heart {
-            position: absolute;
-            animation: floatUp 3s linear forwards;
-            font-size: 24px;
-        }
-
-        @keyframes dance {
-            0%, 100% { transform: rotate(-3deg) scale(1); }
-            50% { transform: rotate(3deg) scale(1.05); }
-        }
-
-        @keyframes floatUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-100vh) scale(0); opacity: 0; }
+        #prize {
+            display: none;
+            font-size: 1.4rem;
+            color: #FFD93D;
+            margin-top: 20px;
         }
 
         @media (max-width: 600px) {
             .game-btn {
-                position: relative;
-                margin-top: 30px;
+                font-size: 1rem;
+                padding: 10px 20px;
             }
         }
     </style>
@@ -105,6 +97,8 @@
     
     <button class="game-btn" id="mainBtn">Tap Me Tender 😏</button>
     <div id="message"></div>
+    <button class="game-btn" id="prizeBtn" style="display:none;">Claim Prize? 😎</button>
+    <div id="prize"></div>
 
     <script>
         const flirtLines = [
@@ -119,44 +113,43 @@
             "Are you a bank loan? Because you got my interest! 💰",
             "Are you Australian? Because you meet all my koalafications! 🐨"
         ];
-
+        
+        let usedJokes = new Set();
         const btn = document.getElementById('mainBtn');
         const message = document.getElementById('message');
         const progressBar = document.getElementById('progress-bar');
+        const prizeBtn = document.getElementById('prizeBtn');
+        const prize = document.getElementById('prize');
         let clicks = 0;
-        let maxClicks = 10;
 
         btn.addEventListener('click', () => {
-            if(clicks >= maxClicks) return;
+            if (clicks >= 10) return;
             
             clicks++;
             progressBar.style.width = (clicks * 10) + '%';
             
-            // Create floating heart
-            const heart = document.createElement('div');
-            heart.className = 'heart';
-            heart.innerHTML = '💖';
-            heart.style.left = `${btn.offsetLeft}px`;
-            heart.style.top = `${btn.offsetTop}px`;
-            document.body.appendChild(heart);
-            setTimeout(() => heart.remove(), 3000);
+            // Get unique joke
+            let jokeIndex;
+            do {
+                jokeIndex = Math.floor(Math.random() * flirtLines.length);
+            } while (usedJokes.has(jokeIndex));
+            usedJokes.add(jokeIndex);
 
-            // Show messages
             message.style.display = 'block';
-            message.textContent = flirtLines[Math.floor(Math.random() * flirtLines.length)];
+            message.textContent = flirtLines[jokeIndex];
             
-            if(clicks === maxClicks) {
-                message.innerHTML = "🏆 Level Complete! 🏆<br>Your Prize: 1 Virtual Date*<br><small>*Terms: Must include pizza & bad movies</small>";
-                btn.textContent = "Claim Prize? 😎";
-                btn.style.position = 'static';
-                btn.disabled = true;
+            if (clicks === 10) {
+                message.innerHTML = "🏆 Level Complete! 🏆";
+                btn.style.display = 'none';
+                prizeBtn.style.display = 'block';
             }
         });
 
-        // Set initial position at the center
-        btn.style.left = '50%';
-        btn.style.top = '50%';
-        btn.style.transform = 'translate(-50%, -50%)';
+        prizeBtn.addEventListener('click', () => {
+            prize.innerHTML = "🎉 Congratulations! 🎉<br>You've won a **date with me**! 🍻🍕🎬<br><small>*Terms: Must include cold beer, hot pizzas, and bad movies.*</small>";
+            prize.style.display = 'block';
+            prizeBtn.style.display = 'none';
+        });
     </script>
 </body>
 </html>

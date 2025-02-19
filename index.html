@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Denny-cious Playzone</title>
@@ -17,7 +17,8 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            overflow-x: hidden;
+            justify-content: center;
+            overflow: hidden;
             touch-action: manipulation;
         }
 
@@ -25,7 +26,7 @@
             color: #FFF;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
             font-size: clamp(1.5rem, 6vw, 2.5rem);
-            margin: 20px 0;
+            margin-bottom: 20px;
             animation: dance 2s ease infinite;
         }
 
@@ -35,7 +36,7 @@
             height: 10px;
             background: rgba(255,255,255,0.3);
             border-radius: 10px;
-            margin: 10px 0;
+            margin-bottom: 20px;
         }
 
         #progress-bar {
@@ -49,16 +50,15 @@
         .game-btn {
             background: #4ECDC4;
             color: white;
-            padding: clamp(12px, 3vw, 18px) clamp(24px, 6vw, 36px);
+            padding: 15px 30px;
             border: none;
             border-radius: 30px;
-            font-size: clamp(1rem, 4vw, 1.2rem);
+            font-size: 1.2rem;
             cursor: pointer;
             transition: all 0.3s;
-            position: absolute;
             box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            touch-action: none;
             user-select: none;
+            position: absolute;
         }
 
         .game-btn:active {
@@ -67,8 +67,8 @@
 
         #message {
             color: white;
-            font-size: clamp(1.2rem, 5vw, 1.6rem);
-            margin: 20px;
+            font-size: 1.4rem;
+            margin-top: 20px;
             text-align: center;
             display: none;
         }
@@ -124,23 +124,10 @@
         const message = document.getElementById('message');
         const progressBar = document.getElementById('progress-bar');
         let clicks = 0;
-
-        // Mobile-friendly movement
-        let isMobile = 'ontouchstart' in window;
-        let moveEvent = isMobile ? 'touchmove' : 'mousemove';
-
-        document.addEventListener(moveEvent, (e) => {
-            if(clicks < 10) {
-                const x = isMobile ? e.touches[0].clientX : e.clientX;
-                const y = isMobile ? e.touches[0].clientY : e.clientY;
-                
-                btn.style.left = x + 'px';
-                btn.style.top = y + 'px';
-            }
-        });
+        let maxClicks = 10;
 
         btn.addEventListener('click', () => {
-            if(clicks >= 10) return;
+            if(clicks >= maxClicks) return;
             
             clicks++;
             progressBar.style.width = (clicks * 10) + '%';
@@ -149,8 +136,8 @@
             const heart = document.createElement('div');
             heart.className = 'heart';
             heart.innerHTML = '💖';
-            heart.style.left = btn.offsetLeft + 'px';
-            heart.style.top = btn.offsetTop + 'px';
+            heart.style.left = `${btn.offsetLeft}px`;
+            heart.style.top = `${btn.offsetTop}px`;
             document.body.appendChild(heart);
             setTimeout(() => heart.remove(), 3000);
 
@@ -158,7 +145,7 @@
             message.style.display = 'block';
             message.textContent = flirtLines[Math.floor(Math.random() * flirtLines.length)];
             
-            if(clicks === 10) {
+            if(clicks === maxClicks) {
                 message.innerHTML = "🏆 Level Complete! 🏆<br>Your Prize: 1 Virtual Date*<br><small>*Terms: Must include pizza & bad movies</small>";
                 btn.textContent = "Claim Prize? 😎";
                 btn.style.position = 'static';
@@ -166,9 +153,10 @@
             }
         });
 
-        // Initial position
+        // Set initial position at the center
         btn.style.left = '50%';
         btn.style.top = '50%';
+        btn.style.transform = 'translate(-50%, -50%)';
     </script>
 </body>
 </html>

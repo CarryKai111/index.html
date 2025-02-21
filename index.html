@@ -1,156 +1,185 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Denny-cious Playzone</title>
+    <title>Flirty Match Game 💖</title>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
         body {
-            background: linear-gradient(45deg, #FF6B6B, #FF8E8E);
-            font-family: 'Comic Sans MS', cursive;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            overflow: hidden;
-            touch-action: manipulation;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(45deg, #ff758c, #ff7eb3);
             text-align: center;
-        }
-
-        #title {
-            color: #FFF;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
-            font-size: clamp(1.5rem, 6vw, 2.5rem);
-            margin-bottom: 20px;
-        }
-
-        #progress {
-            width: 80%;
-            max-width: 300px;
-            height: 10px;
-            background: rgba(255,255,255,0.3);
-            border-radius: 10px;
-            margin-bottom: 10px;
-        }
-
-        #progress-bar {
-            height: 100%;
-            width: 0%;
-            background: #FFD93D;
-            border-radius: 10px;
-            transition: width 0.3s ease;
-        }
-
-        .game-btn {
-            background: #4ECDC4;
             color: white;
-            padding: 12px 24px;
-            border: none;
-            border-radius: 30px;
-            font-size: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.2);
-            touch-action: none;
+            padding: 20px;
             user-select: none;
-            margin-top: 20px;
         }
 
-        .game-btn:active {
-            transform: scale(0.95);
+        h1 {
+            font-size: 24px;
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.3);
+        }
+
+        #game-board {
+            display: grid;
+            grid-template-columns: repeat(4, 60px);
+            grid-gap: 10px;
+            justify-content: center;
+            margin: 20px auto;
+            max-width: 300px;
+        }
+
+        .card {
+            width: 60px;
+            height: 60px;
+            background: white;
+            color: black;
+            font-size: 30px;
+            text-align: center;
+            line-height: 60px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .card.flipped {
+            background: #ff4081;
+            color: white;
+            transform: rotateY(180deg);
         }
 
         #message {
-            color: white;
-            font-size: 1.6rem;
-            margin-top: 20px;
-            text-align: center;
+            font-size: 18px;
+            margin: 15px 0;
             display: none;
+        }
+
+        #next-level {
+            display: none;
+            background: #ffd700;
+            color: black;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            border: none;
         }
 
         #prize {
             display: none;
-            font-size: 1.4rem;
-            color: #FFD93D;
+            font-size: 20px;
             margin-top: 20px;
+            padding: 15px;
+            background: white;
+            color: black;
+            border-radius: 10px;
         }
 
         @media (max-width: 600px) {
-            .game-btn {
-                font-size: 1rem;
-                padding: 10px 20px;
+            #game-board {
+                grid-template-columns: repeat(3, 60px);
             }
         }
     </style>
 </head>
 <body>
-    <h1 id="title">Hey Denny! 💖</h1>
-    <div id="progress">
-        <div id="progress-bar"></div>
-    </div>
-    
-    <button class="game-btn" id="mainBtn">Tap Me Tender 😏</button>
-    <div id="message"></div>
-    <button class="game-btn" id="prizeBtn" style="display:none;">Claim Prize? 😎</button>
+    <h1>Flirty Match Game 💖</h1>
+    <p>Match the emoji pairs & unlock my flirtiness! 😉</p>
+
+    <div id="game-board"></div>
+    <p id="message"></p>
+    <button id="next-level">Next Level 😏</button>
     <div id="prize"></div>
 
     <script>
-        const flirtLines = [
-            "Do you have a name or can I call you mine? 😉",
-            "Are you WiFi? Because I'm really feeling a connection! 📶",
-            "Is your dad a baker? Because you're a cutie pie! 🥧",
-            "Are you French? Because Eiffel for you! 🗼",
-            "Do you believe in love? Or should I walk by again? 👀",
-            "Is it getting too Corny Babrs?",
-            "Are you a time traveler? Because I see you in my future! ⏳",
-            "Is your name Google? Because you have everything I'm searching for! 🔍",
-            "Are you made of grapes? Because you're fine as wine! 🍷",
+        const jokes = [
+            "Are you a magician? Because whenever I look at you, everyone else disappears! ✨",
+            "Are you French? Because Eiffel for you! 😘",
             "Are you a bank loan? Because you got my interest! 💰",
-            "Are you Australian? Because you meet all my koalafications! 🐨"
+            "Do you have a map? Because I keep getting lost in your eyes. 😍",
+            "Are you made of copper and tellurium? Because you're Cu-Te! 🧪",
+            "Do you have a Band-Aid? Because I just scraped my knee falling for you! 😜",
+            "Are you a time traveler? Because I see you in my future! ⏳",
+            "Are you Google? Because you have everything I’ve been searching for. 🔍",
+            "Are you WiFi? Because I’m really feeling a connection! 📶",
+            "Are you oxygen? Because I can't live without you. 💨"
         ];
-        
-        let usedJokes = new Set();
-        const btn = document.getElementById('mainBtn');
-        const message = document.getElementById('message');
-        const progressBar = document.getElementById('progress-bar');
-        const prizeBtn = document.getElementById('prizeBtn');
-        const prize = document.getElementById('prize');
-        let clicks = 0;
 
-        btn.addEventListener('click', () => {
-            if (clicks >= 10) return;
-            
-            clicks++;
-            progressBar.style.width = (clicks * 10) + '%';
-            
-            // Get unique joke
-            let jokeIndex;
-            do {
-                jokeIndex = Math.floor(Math.random() * flirtLines.length);
-            } while (usedJokes.has(jokeIndex));
-            usedJokes.add(jokeIndex);
+        const emojis = ["🔥", "🔥", "🍕", "🍕", "❤️", "❤️", "🎸", "🎸", "🎮", "🎮", "🍩", "🍩"];
+        let shuffledEmojis = [];
+        let flippedCards = [];
+        let matchesFound = 0;
+        let level = 0;
 
-            message.style.display = 'block';
-            message.textContent = flirtLines[jokeIndex];
-            
-            if (clicks === 10) {
-                message.innerHTML = "🏆 Level Complete! 🏆";
-                btn.style.display = 'none';
-                prizeBtn.style.display = 'block';
+        function shuffle(array) {
+            return array.sort(() => Math.random() - 0.5);
+        }
+
+        function setupGame() {
+            const gameBoard = document.getElementById("game-board");
+            gameBoard.innerHTML = "";
+            shuffledEmojis = shuffle([...emojis]);
+            matchesFound = 0;
+            flippedCards = [];
+
+            shuffledEmojis.forEach((emoji, index) => {
+                const card = document.createElement("div");
+                card.classList.add("card");
+                card.dataset.emoji = emoji;
+                card.dataset.index = index;
+                card.addEventListener("click", flipCard);
+                gameBoard.appendChild(card);
+            });
+        }
+
+        function flipCard() {
+            if (flippedCards.length < 2 && !this.classList.contains("flipped")) {
+                this.textContent = this.dataset.emoji;
+                this.classList.add("flipped");
+                flippedCards.push(this);
+
+                if (flippedCards.length === 2) {
+                    setTimeout(checkMatch, 500);
+                }
             }
+        }
+
+        function checkMatch() {
+            if (flippedCards[0].dataset.emoji === flippedCards[1].dataset.emoji) {
+                flippedCards = [];
+                matchesFound += 2;
+
+                if (matchesFound === emojis.length) {
+                    showJoke();
+                }
+            } else {
+                flippedCards.forEach(card => {
+                    card.textContent = "";
+                    card.classList.remove("flipped");
+                });
+                flippedCards = [];
+            }
+        }
+
+        function showJoke() {
+            document.getElementById("message").textContent = jokes[level];
+            document.getElementById("message").style.display = "block";
+
+            if (level < jokes.length - 1) {
+                document.getElementById("next-level").style.display = "block";
+            } else {
+                document.getElementById("prize").innerHTML = "🏆 Congratulations! You've won a date with me! 🎉<br><small>Terms: Cold beer, hot pizza & bad movies. 😏</small>";
+                document.getElementById("prize").style.display = "block";
+            }
+        }
+
+        document.getElementById("next-level").addEventListener("click", () => {
+            level++;
+            document.getElementById("message").style.display = "none";
+            document.getElementById("next-level").style.display = "none";
+            setupGame();
         });
 
-        prizeBtn.addEventListener('click', () => {
-            prize.innerHTML = "🎉 Congratulations! 🎉<br>You've won a **date with me moromloga Okonmani Mainaa Babrbie**! 🍻🍕🎬<br><small>*Terms: Must include cold beer, hot pizzas, and bad movies.*</small>";
-            prize.style.display = 'block';
-            prizeBtn.style.display = 'none';
-        });
+        setupGame();
     </script>
 </body>
 </html>

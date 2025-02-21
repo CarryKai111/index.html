@@ -3,212 +3,172 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Flirty Challenge 🎮💖</title>
+    <title>Denny's Brain Challenge</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
         body {
-            font-family: 'Arial', sans-serif;
-            background: linear-gradient(45deg, #ff758c, #ff7eb3);
-            text-align: center;
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
             color: white;
+            text-align: center;
             padding: 20px;
-            user-select: none;
         }
-
-        #game-container {
-            display: none;
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
         }
-
-        .game {
-            display: none;
+        .game-container {
+            max-width: 400px;
+            margin: auto;
+            padding: 20px;
+            background: #0f3460;
+            border-radius: 10px;
+            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
         }
-
+        .hidden { display: none; }
         button {
-            background: #ffd700;
-            color: black;
-            padding: 10px 20px;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
+            background: #e94560;
+            color: white;
             border: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            border-radius: 5px;
+            cursor: pointer;
             margin-top: 10px;
         }
-
-        #final-prize {
-            display: none;
-            font-size: 20px;
-            margin-top: 20px;
-            padding: 15px;
-            background: white;
-            color: black;
-            border-radius: 10px;
-        }
-
-        .box {
-            display: inline-block;
-            background: white;
-            color: black;
-            padding: 20px;
-            border-radius: 10px;
-            cursor: pointer;
-            margin: 10px;
-        }
-
-        #puzzle-board {
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
-            width: 120px;
-            margin: auto;
-        }
-
-        .puzzle-piece {
-            width: 40px;
-            height: 40px;
-            background: white;
-            color: black;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 1px solid black;
-            cursor: pointer;
-        }
-
-        @media (max-width: 600px) {
-            .box {
-                display: block;
-                width: 80%;
-                margin: 10px auto;
-            }
+        button:hover { background: #f08a5d; }
+        input {
+            padding: 10px;
+            font-size: 16px;
+            width: 80%;
+            margin-top: 10px;
+            text-align: center;
         }
     </style>
 </head>
 <body>
-    <h1>Flirty Challenge 🎮💖</h1>
-    <button onclick="startGame()">Start Game</button>
 
-    <div id="game-container">
-        <div id="level-title"></div>
-        <div class="game" id="level1">
-            <h2>🧩 Puzzle Game</h2>
-            <p>Arrange the numbers in order: 1, 2, 3.</p>
-            <div id="puzzle-board"></div>
-            <button onclick="checkPuzzle()">Check Order</button>
+    <h1>🔥 Denny's Brain Challenge 🔥</h1>
+
+    <div id="game-container" class="game-container">
+        <div id="level1">
+            <h2>Level 1: Logic Puzzle</h2>
+            <p>What comes next? 2, 6, 12, 20, ___?</p>
+            <input type="number" id="level1-answer">
+            <button onclick="checkLevel1()">Submit</button>
         </div>
 
-        <div class="game" id="level2">
-            <h2>❓ Quiz Time</h2>
-            <p>What’s the best way to impress me? 😉</p>
-            <button onclick="nextLevel()">A. With a smile</button>
-            <button onclick="nextLevel()">B. With a joke</button>
-            <button onclick="nextLevel()">C. By winning this game</button>
+        <div id="level2" class="hidden">
+            <h2>Level 2: Math Riddle</h2>
+            <p>I am a number. Multiply me by 4, subtract 6, and you get 18. Who am I?</p>
+            <input type="number" id="level2-answer">
+            <button onclick="checkLevel2()">Submit</button>
         </div>
 
-        <div class="game" id="level3">
-            <h2>⏳ Tap the Heart</h2>
-            <p>Tap the heart 5 times as fast as you can!</p>
-            <button id="tap-btn" onclick="tapHeart()">❤️ (0/5)</button>
+        <div id="level3" class="hidden">
+            <h2>Level 3: Memory Challenge</h2>
+            <p>Memorize this: <strong id="memory-sequence"></strong></p>
+            <button onclick="showMemoryInput()">Next</button>
+            <input type="text" id="memory-input" class="hidden">
+            <button onclick="checkMemory()" class="hidden" id="memory-btn">Submit</button>
         </div>
 
-        <div class="game" id="level4">
-            <h2>➕ Math Challenge</h2>
-            <p>If I have 5 smiles and you give me 5 more, how many do I have?</p>
-            <input type="number" id="math-answer">
-            <button onclick="checkMath()">Submit</button>
+        <div id="level4" class="hidden">
+            <h2>Level 4: Word Scramble</h2>
+            <p>Unscramble: <strong id="scramble-word"></strong></p>
+            <input type="text" id="scramble-answer">
+            <button onclick="checkScramble()">Submit</button>
         </div>
 
-        <div class="game" id="final">
-            <h2>🎁 Mystery Choice</h2>
-            <p>Pick a box for a surprise!</p>
-            <div class="box" onclick="winGame()">🎁 Box 1</div>
-            <div class="box" onclick="winGame()">🎁 Box 2</div>
-            <div class="box" onclick="winGame()">🎁 Box 3</div>
+        <div id="final-level" class="hidden">
+            <h2>Final Level: Cipher Code</h2>
+            <p>Decode this: <strong>Jgpp! Tjdlm</strong> (Hint: Shift each letter back by 1)</p>
+            <input type="text" id="cipher-answer">
+            <button onclick="checkCipher()">Submit</button>
         </div>
-    </div>
 
-    <div id="final-prize">
-        🏆 Congratulations! You’ve won a date with me! 🎉<br>
-        <small>Terms: Cold beer, hot pizza & bad movies. 😏</small>
+        <div id="winner-screen" class="hidden">
+            <h2>🎉 You Win! 🎉</h2>
+            <p>Your reward: <strong>A Date with Me</strong> 🍕🍺🎬</p>
+            <p>Terms: Must include cold beer, hot pizza & bad movies.</p>
+        </div>
     </div>
 
     <script>
-        let level = 0;
-        let tapCount = 0;
-
-        function startGame() {
-            document.querySelector("button").style.display = "none";
-            document.getElementById("game-container").style.display = "block";
-            nextLevel();
-        }
-
-        function nextLevel() {
-            let games = document.querySelectorAll(".game");
-            games.forEach(game => game.style.display = "none");
-
-            level++;
-            if (level <= 5) {
-                document.getElementById(`level${level}`).style.display = "block";
+        function checkLevel1() {
+            let answer = document.getElementById('level1-answer').value;
+            if (answer == 30) {
+                document.getElementById('level1').classList.add('hidden');
+                document.getElementById('level2').classList.remove('hidden');
+            } else {
+                alert("Nope! Try again.");
             }
         }
 
-        // Level 1 - Puzzle
-        function checkPuzzle() {
-            let pieces = document.querySelectorAll(".puzzle-piece");
-            let order = Array.from(pieces).map(piece => piece.textContent).join("");
-            if (order === "123") {
-                nextLevel();
+        function checkLevel2() {
+            let answer = document.getElementById('level2-answer').value;
+            if (answer == 6) {
+                document.getElementById('level2').classList.add('hidden');
+                document.getElementById('level3').classList.remove('hidden');
+                generateMemorySequence();
+            } else {
+                alert("Nope! Try again.");
             }
         }
 
-        function createPuzzle() {
-            let numbers = ["1", "2", "3"];
-            numbers.sort(() => Math.random() - 0.5);
-            let board = document.getElementById("puzzle-board");
-            board.innerHTML = "";
-            numbers.forEach(num => {
-                let div = document.createElement("div");
-                div.textContent = num;
-                div.classList.add("puzzle-piece");
-                div.onclick = () => swapPuzzle(div);
-                board.appendChild(div);
-            });
+        let memorySequence = "";
+        function generateMemorySequence() {
+            memorySequence = Math.random().toString(36).substring(2, 6).toUpperCase();
+            document.getElementById("memory-sequence").innerText = memorySequence;
+            setTimeout(() => {
+                document.getElementById("memory-sequence").innerText = "???";
+            }, 3000);
         }
 
-        function swapPuzzle(clickedPiece) {
-            let board = document.getElementById("puzzle-board");
-            let pieces = Array.from(board.children);
-            let index = pieces.indexOf(clickedPiece);
-            if (index > 0) {
-                let temp = pieces[index - 1].textContent;
-                pieces[index - 1].textContent = clickedPiece.textContent;
-                clickedPiece.textContent = temp;
+        function showMemoryInput() {
+            document.getElementById("memory-input").classList.remove("hidden");
+            document.getElementById("memory-btn").classList.remove("hidden");
+        }
+
+        function checkMemory() {
+            let answer = document.getElementById('memory-input').value.toUpperCase();
+            if (answer === memorySequence) {
+                document.getElementById('level3').classList.add('hidden');
+                document.getElementById('level4').classList.remove('hidden');
+                generateScramble();
+            } else {
+                alert("Nope! Try again.");
             }
         }
 
-        // Level 3 - Tap Game
-        function tapHeart() {
-            tapCount++;
-            let button = document.getElementById("tap-btn");
-            button.textContent = `❤️ (${tapCount}/5)`;
-            if (tapCount >= 5) {
-                nextLevel();
+        let scrambleWord = "CUTE";
+        function generateScramble() {
+            document.getElementById("scramble-word").innerText = scrambleWord.split("").sort(() => Math.random() - 0.5).join("");
+        }
+
+        function checkScramble() {
+            let answer = document.getElementById('scramble-answer').value.toUpperCase();
+            if (answer === scrambleWord) {
+                document.getElementById('level4').classList.add('hidden');
+                document.getElementById('final-level').classList.remove('hidden');
+            } else {
+                alert("Nope! Try again.");
             }
         }
 
-        // Level 4 - Math
-        function checkMath() {
-            let answer = document.getElementById("math-answer").value;
-            if (answer == 10) {
-                nextLevel();
+        function checkCipher() {
+            let answer = document.getElementById('cipher-answer').value.toUpperCase();
+            if (answer === "I LOVE YOU") {
+                document.getElementById('final-level').classList.add('hidden');
+                document.getElementById('winner-screen').classList.remove('hidden');
+            } else {
+                alert("Nope! Try again.");
             }
         }
-
-        // Final Level - Mystery Choice
-        function winGame() {
-            document.getElementById("game-container").style.display = "none";
-            document.getElementById("final-prize").style.display = "block";
-        }
-
-        createPuzzle();
     </script>
 </body>
 </html>

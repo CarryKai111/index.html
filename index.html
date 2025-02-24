@@ -9,148 +9,111 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Comic Sans MS', cursive;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
         }
-
         body {
-            background: linear-gradient(45deg, #1E1E3F, #3B3B98);
+            background: linear-gradient(45deg, #1a1a2e, #16213e);
             color: white;
             text-align: center;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
             padding: 20px;
         }
-
         h1 {
-            font-size: 22px;
-            margin-bottom: 15px;
+            font-size: 24px;
+            margin-bottom: 10px;
         }
-
-        #game-box {
-            background: rgba(255, 255, 255, 0.1);
+        #game-container {
+            max-width: 400px;
             padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
             border-radius: 10px;
-            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
-            max-width: 350px;
-            margin: auto;
+            box-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
         }
-
-        .btn {
-            background: #FF6B6B;
+        button {
+            background: #ff4b5c;
             color: white;
-            padding: 10px 15px;
             border: none;
-            cursor: pointer;
+            padding: 10px 20px;
+            margin: 10px;
+            font-size: 18px;
             border-radius: 5px;
-            margin: 5px;
+            cursor: pointer;
+        }
+        button:hover {
+            background: #ff2e4d;
+        }
+        input {
+            padding: 10px;
             font-size: 16px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+            margin-top: 10px;
         }
-
-        .btn:hover {
-            background: #FF4F4F;
-        }
-
-        #joke-box {
+        #joke {
             margin-top: 15px;
             font-size: 18px;
             font-style: italic;
-        }
-
-        #prize-box {
-            display: none;
-            background: rgba(255, 255, 255, 0.2);
-            padding: 15px;
-            border-radius: 10px;
-            margin-top: 20px;
-        }
-
-        @media (max-width: 500px) {
-            h1 {
-                font-size: 18px;
-            }
-
-            .btn {
-                font-size: 14px;
-            }
         }
     </style>
 </head>
 <body>
 
-    <h1>OKonmani Moromloga Maina Barbie 💖</h1>
-    <div id="game-box">
-        <p id="game-text">Level 1: Solve the puzzle!</p>
-        <button class="btn" onclick="startGame()">Start Game</button>
-    </div>
-
-    <div id="joke-box"></div>
-
-    <div id="prize-box">
-        🎉 **Congratulations Barbie!** 🎉 <br>  
-        You won a **date with me!** 🍕🍺🎥 <br>  
-        Terms: **Cold beer, hot pizzas, and bad movies.**  
+    <h1>OKonmani Moromloga Maina Barbie</h1>
+    <div id="game-container">
+        <h2 id="level-title">Level 1</h2>
+        <p id="game-question">Rearrange the numbers to make 24: (8, 3, 1, 2)</p>
+        <input type="text" id="answer" placeholder="Enter your answer">
+        <button onclick="checkAnswer()">Submit</button>
+        <p id="joke"></p>
     </div>
 
     <script>
         let level = 1;
-        const jokes = [
-            "Are you made of copper and tellurium? Because you're Cu-Te! 😉",
-            "You must be an enzyme, because you make my heart react faster! ❤️",
-            "Are you WiFi? Because I'm really feeling a connection. 📶",
-            "Are you an atom? Because nothing can break our bond. 🔗",
-            "Are you a black hole? Because I'm getting pulled in! 🌀",
-            "Is your name Google? Because you have everything I'm searching for! 🔍",
-            "Do you believe in love at first sight, or should I walk by again? 😏",
-            "Are you a campfire? Because you’re hot and I want s’more. 🔥"
+        let jokes = [
+            "Are you a scientist? Because you just made my heart explode! 💥",
+            "Are you a puzzle? Because I can't seem to figure you out... and I love it! 😏",
+            "Are you WiFi? Because I'm really feeling a connection. 📡",
+            "Are we at Hogwarts? Because whenever I see you, it's like magic! 🪄",
+            "Are you a black hole? Because I'm getting pulled towards you irresistibly! 🌌",
+            "Are you mitochondria? Because you’re the powerhouse of my heart! ❤️"
+        ];
+        let gameData = [
+            { question: "Rearrange the numbers to make 24: (8, 3, 1, 2)", answer: "8*3-1*2" },
+            { question: "What has keys but can't open locks?", answer: "piano" },
+            { question: "What comes next in the sequence? 1, 1, 2, 3, 5, ?", answer: "8" },
+            { question: "If you multiply this number by itself, you get 16. What is it?", answer: "4" },
+            { question: "What is the capital of love? (Hint: Paris is the capital of France)", answer: "heart" }
         ];
 
-        function startGame() {
-            if (level === 1) {
-                puzzleLevel();
-            } else if (level === 2) {
-                quizLevel();
-            } else if (level === 3) {
-                patternGame();
-            }
-        }
+        function checkAnswer() {
+            let userAnswer = document.getElementById('answer').value.toLowerCase();
+            if (userAnswer === gameData[level - 1].answer) {
+                document.getElementById('joke').innerText = "🎉 Correct! " + jokes[level - 1];
 
-        function puzzleLevel() {
-            let answer = prompt("Rearrange the letters: ILOVEBARBIE (Hint: Something sweet)");
-            if (answer.toLowerCase() === "lovebarbie") {
-                nextLevel("🔥 Hot start! Level 2 awaits!");
+                setTimeout(() => {
+                    if (level < gameData.length) {
+                        level++;
+                        document.getElementById('level-title').innerText = "Level " + level;
+                        document.getElementById('game-question').innerText = gameData[level - 1].question;
+                        document.getElementById('answer').value = "";
+                        document.getElementById('joke').innerText = "";
+                    } else {
+                        document.getElementById('game-container').innerHTML = `
+                            <h2>🎉 Congratulations Barbie! 🎉</h2>
+                            <p>You completed all levels!</p>
+                            <p>Your prize: A DATE with me! ❤️</p>
+                            <p><small>Terms: Must include cold beer, hot pizzas, and bad movies. 🍕🍺🎥</small></p>
+                        `;
+                    }
+                }, 2000);
             } else {
-                alert("Oops! Try again.");
+                document.getElementById('joke').innerText = "❌ Try again, Barbie! 😉";
             }
-        }
-
-        function quizLevel() {
-            let answer = prompt("What is the chemical symbol for Gold? (Type the answer)");
-            if (answer.toLowerCase() === "au") {
-                nextLevel("⚡ You're golden! Next challenge...");
-            } else {
-                alert("Nope! Gold is 'Au'. Try again.");
-            }
-        }
-
-        function patternGame() {
-            let answer = prompt("What comes next in the sequence? 2, 4, 8, 16, __ ?");
-            if (answer === "32") {
-                finalWin();
-            } else {
-                alert("Wrong! Hint: It's doubling.");
-            }
-        }
-
-        function nextLevel(msg) {
-            let joke = jokes[Math.floor(Math.random() * jokes.length)];
-            document.getElementById("joke-box").innerHTML = `😂 **Joke for you:** ${joke}`;
-            alert(msg);
-            level++;
-            startGame();
-        }
-
-        function finalWin() {
-            document.getElementById("joke-box").innerHTML = `🎊 **Final Joke:** ${jokes[Math.floor(Math.random() * jokes.length)]}`;
-            document.getElementById("prize-box").style.display = "block";
-            document.getElementById("game-box").innerHTML = "🎉 Game Completed! Enjoy your prize!";
         }
     </script>
 

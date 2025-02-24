@@ -3,174 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Denny's Brain Challenge</title>
+    <title>OKonmani Moromloga Maina Barbie</title>
     <style>
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: Arial, sans-serif;
+            font-family: 'Comic Sans MS', cursive;
         }
+
         body {
-            background: linear-gradient(45deg, #1a1a2e, #16213e);
+            background: linear-gradient(45deg, #1E1E3F, #3B3B98);
             color: white;
             text-align: center;
             padding: 20px;
         }
+
         h1 {
-            font-size: 24px;
-            margin-bottom: 20px;
+            font-size: 22px;
+            margin-bottom: 15px;
         }
-        .game-container {
-            max-width: 400px;
-            margin: auto;
+
+        #game-box {
+            background: rgba(255, 255, 255, 0.1);
             padding: 20px;
-            background: #0f3460;
             border-radius: 10px;
-            box-shadow: 0 4px 10px rgba(255,255,255,0.2);
+            box-shadow: 0px 0px 10px rgba(255, 255, 255, 0.3);
+            max-width: 350px;
+            margin: auto;
         }
-        .hidden { display: none; }
-        button {
-            background: #e94560;
+
+        .btn {
+            background: #FF6B6B;
             color: white;
+            padding: 10px 15px;
             border: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            border-radius: 5px;
             cursor: pointer;
-            margin-top: 10px;
-        }
-        button:hover { background: #f08a5d; }
-        input {
-            padding: 10px;
+            border-radius: 5px;
+            margin: 5px;
             font-size: 16px;
-            width: 80%;
-            margin-top: 10px;
-            text-align: center;
+        }
+
+        .btn:hover {
+            background: #FF4F4F;
+        }
+
+        #joke-box {
+            margin-top: 15px;
+            font-size: 18px;
+            font-style: italic;
+        }
+
+        #prize-box {
+            display: none;
+            background: rgba(255, 255, 255, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        @media (max-width: 500px) {
+            h1 {
+                font-size: 18px;
+            }
+
+            .btn {
+                font-size: 14px;
+            }
         }
     </style>
 </head>
 <body>
 
-    <h1>🔥 Denny's Brain Challenge 🔥</h1>
+    <h1>OKonmani Moromloga Maina Barbie 💖</h1>
+    <div id="game-box">
+        <p id="game-text">Level 1: Solve the puzzle!</p>
+        <button class="btn" onclick="startGame()">Start Game</button>
+    </div>
 
-    <div id="game-container" class="game-container">
-        <div id="level1">
-            <h2>Level 1: Logic Puzzle</h2>
-            <p>What comes next? 2, 6, 12, 20, ___?</p>
-            <input type="number" id="level1-answer">
-            <button onclick="checkLevel1()">Submit</button>
-        </div>
+    <div id="joke-box"></div>
 
-        <div id="level2" class="hidden">
-            <h2>Level 2: Math Riddle</h2>
-            <p>I am a number. Multiply me by 4, subtract 6, and you get 18. Who am I?</p>
-            <input type="number" id="level2-answer">
-            <button onclick="checkLevel2()">Submit</button>
-        </div>
-
-        <div id="level3" class="hidden">
-            <h2>Level 3: Memory Challenge</h2>
-            <p>Memorize this: <strong id="memory-sequence"></strong></p>
-            <button onclick="showMemoryInput()">Next</button>
-            <input type="text" id="memory-input" class="hidden">
-            <button onclick="checkMemory()" class="hidden" id="memory-btn">Submit</button>
-        </div>
-
-        <div id="level4" class="hidden">
-            <h2>Level 4: Word Scramble</h2>
-            <p>Unscramble: <strong id="scramble-word"></strong></p>
-            <input type="text" id="scramble-answer">
-            <button onclick="checkScramble()">Submit</button>
-        </div>
-
-        <div id="final-level" class="hidden">
-            <h2>Final Level: Cipher Code</h2>
-            <p>Decode this: <strong>Jgpp! Tjdlm</strong> (Hint 2: Right answer is wrong answer here, whatever combination you try will be wrong, but there's a solution, If you put something from your intuition and gut feeling, it will work, it's might be something beautiful and music to everyones ear,  ok see you in the reward )</p>
-            <input type="text" id="cipher-answer">
-            <button onclick="checkCipher()">Submit</button>
-        </div>
-
-        <div id="winner-screen" class="hidden">
-            <h2>🎉 You Win! 🎉</h2>
-            <p>Your reward: <strong>Another Date with Me</strong> 🍕🍺🎬</p>
-              <p> Awwww, So you want another date ha  <p>
-                    <p> Okay sure  <p>
-            <p>Terms: Must include Coktails and shots & lots of hangover.</p>
-        </div>
+    <div id="prize-box">
+        🎉 **Congratulations Barbie!** 🎉 <br>  
+        You won a **date with me!** 🍕🍺🎥 <br>  
+        Terms: **Cold beer, hot pizzas, and bad movies.**  
     </div>
 
     <script>
-        function checkLevel1() {
-            let answer = document.getElementById('level1-answer').value;
-            if (answer == 30) {
-                document.getElementById('level1').classList.add('hidden');
-                document.getElementById('level2').classList.remove('hidden');
-            } else {
-                alert("Nope! Try again.");
+        let level = 1;
+        const jokes = [
+            "Are you made of copper and tellurium? Because you're Cu-Te! 😉",
+            "You must be an enzyme, because you make my heart react faster! ❤️",
+            "Are you WiFi? Because I'm really feeling a connection. 📶",
+            "Are you an atom? Because nothing can break our bond. 🔗",
+            "Are you a black hole? Because I'm getting pulled in! 🌀",
+            "Is your name Google? Because you have everything I'm searching for! 🔍",
+            "Do you believe in love at first sight, or should I walk by again? 😏",
+            "Are you a campfire? Because you’re hot and I want s’more. 🔥"
+        ];
+
+        function startGame() {
+            if (level === 1) {
+                puzzleLevel();
+            } else if (level === 2) {
+                quizLevel();
+            } else if (level === 3) {
+                patternGame();
             }
         }
 
-        function checkLevel2() {
-            let answer = document.getElementById('level2-answer').value;
-            if (answer == 6) {
-                document.getElementById('level2').classList.add('hidden');
-                document.getElementById('level3').classList.remove('hidden');
-                generateMemorySequence();
+        function puzzleLevel() {
+            let answer = prompt("Rearrange the letters: ILOVEBARBIE (Hint: Something sweet)");
+            if (answer.toLowerCase() === "lovebarbie") {
+                nextLevel("🔥 Hot start! Level 2 awaits!");
             } else {
-                alert("Nope! Try again.");
+                alert("Oops! Try again.");
             }
         }
 
-        let memorySequence = "";
-        function generateMemorySequence() {
-            memorySequence = Math.random().toString(36).substring(2, 6).toUpperCase();
-            document.getElementById("memory-sequence").innerText = memorySequence;
-            setTimeout(() => {
-                document.getElementById("memory-sequence").innerText = "???";
-            }, 3000);
-        }
-
-        function showMemoryInput() {
-            document.getElementById("memory-input").classList.remove("hidden");
-            document.getElementById("memory-btn").classList.remove("hidden");
-        }
-
-        function checkMemory() {
-            let answer = document.getElementById('memory-input').value.toUpperCase();
-            if (answer === memorySequence) {
-                document.getElementById('level3').classList.add('hidden');
-                document.getElementById('level4').classList.remove('hidden');
-                generateScramble();
+        function quizLevel() {
+            let answer = prompt("What is the chemical symbol for Gold? (Type the answer)");
+            if (answer.toLowerCase() === "au") {
+                nextLevel("⚡ You're golden! Next challenge...");
             } else {
-                alert("Nope! Try again.");
+                alert("Nope! Gold is 'Au'. Try again.");
             }
         }
 
-        let scrambleWord = "CUTE";
-        function generateScramble() {
-            document.getElementById("scramble-word").innerText = scrambleWord.split("").sort(() => Math.random() - 0.5).join("");
-        }
-
-        function checkScramble() {
-            let answer = document.getElementById('scramble-answer').value.toUpperCase();
-            if (answer === scrambleWord) {
-                document.getElementById('level4').classList.add('hidden');
-                document.getElementById('final-level').classList.remove('hidden');
+        function patternGame() {
+            let answer = prompt("What comes next in the sequence? 2, 4, 8, 16, __ ?");
+            if (answer === "32") {
+                finalWin();
             } else {
-                alert("Nope! Try again.");
+                alert("Wrong! Hint: It's doubling.");
             }
         }
 
-        function checkCipher() {
-            let answer = document.getElementById('cipher-answer').value.toUpperCase();
-            if (answer === "I LOVE YOU") {
-                document.getElementById('final-level').classList.add('hidden');
-                document.getElementById('winner-screen').classList.remove('hidden');
-            } else {
-                alert("Nope! Try again.");
-            }
+        function nextLevel(msg) {
+            let joke = jokes[Math.floor(Math.random() * jokes.length)];
+            document.getElementById("joke-box").innerHTML = `😂 **Joke for you:** ${joke}`;
+            alert(msg);
+            level++;
+            startGame();
+        }
+
+        function finalWin() {
+            document.getElementById("joke-box").innerHTML = `🎊 **Final Joke:** ${jokes[Math.floor(Math.random() * jokes.length)]}`;
+            document.getElementById("prize-box").style.display = "block";
+            document.getElementById("game-box").innerHTML = "🎉 Game Completed! Enjoy your prize!";
         }
     </script>
+
 </body>
 </html>
